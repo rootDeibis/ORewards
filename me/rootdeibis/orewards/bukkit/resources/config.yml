@@ -1,0 +1,16 @@
+# -----------------------------
+#       ORewards V2.0         /
+#   github.com/rootDeibis     \
+#                             /
+#  By: rootDeibis Developer   \
+# -----------------------------
+
+
+
+database:
+  type: "SQLFile" # Available Types: SQLFile and MYSQL
+  #host: "127.0.0.1"
+  #credentials:
+    #username: "root"
+    #password: "password_here"
+    #databaseName: "orewards"

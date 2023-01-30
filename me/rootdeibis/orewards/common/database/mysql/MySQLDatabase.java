@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MySQLDatabase implements ISQLDatabase {
+public class MySQLDatabase extends ISQLDatabase {
 
     private Connection connection;
 
@@ -64,9 +64,10 @@ public class MySQLDatabase implements ISQLDatabase {
 
     }
 
+
     @Override
-    public void connect() {
-        this.connect(() -> {});
+    public Connection getConnection() {
+        return this.connection;
     }
 
     @Override
@@ -79,102 +80,7 @@ public class MySQLDatabase implements ISQLDatabase {
         }
     }
 
-    @Override
-    public boolean has(String query) {
-        return this.get(query) != null;
-    }
 
-    @Override
-    public HashMap<String, Object> get(String query, String... keys) {
-        HashMap<String, Object> result = new HashMap<>();
-
-        try {
-            Statement statement = this.connection.createStatement();
-
-           ResultSet resultSet = statement.executeQuery(query);
-
-           if (resultSet.next()) {
-
-               for (String key : keys) {
-                   Object value = resultSet.getObject(key);
-
-
-                   if (!(value == null)) value = "undefined";
-
-                   result.put(key, value);
-
-               }
-               
-           }
-
-           return result;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void all(String query, Functions.Function<List<HashMap<String, Object>>> then) {
-        Thread thread = new AllThreadQuery(this.connection, query, then);
-
-        thread.start();
-    }
-
-
-    private class AllThreadQuery extends Thread {
-
-
-        private final Connection connection;
-        private final String query;
-        private final Functions.Function<List<HashMap<String, Object>>> then;
-        public AllThreadQuery(Connection connection , String query, Functions.Function<List<HashMap<String, Object>>> then) {
-            this.connection = connection;
-            this.query = query;
-            this.then = then;
-        }
-
-        @Override
-        public void run() {
-            try {
-
-                List<HashMap<String, Object>> ResultList = new ArrayList<>();
-
-                Statement statement = this.connection.createStatement();
-
-                ResultSet resultSet = statement.executeQuery(this.query);
-
-                while (resultSet.next()) {
-
-                    HashMap<String, Object> result = new HashMap<>();
-                        
-                    ResultSetMetaData metaData = resultSet.getMetaData();
-
-                    for (int i = 0; i < metaData.getColumnCount(); i++) {
-                        String columnName = metaData.getColumnName(i);
-                        Object value = resultSet.getObject(columnName);
-
-                        result.put(columnName, value);
-
-                    }
-
-                    ResultList.add(result);
-                    
-                }
-
-                this.then.apply(ResultList);
-
-                this.interrupt();
-
-
-
-            }catch (Exception e) {
-                this.interrupt();
-                throw new RuntimeException(e);
-            }
-
-        }
-    }
 
 
 }
