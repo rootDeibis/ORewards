@@ -12,8 +12,13 @@ public class Functions {
     }
 
     @FunctionalInterface
-    public static interface RFunction<In1, Out> {
+    public static interface R1Function<In1, Out> {
         public Out apply(In1 in1);
+    }
+
+    @FunctionalInterface
+    public static interface RFunction<Out> {
+        public Out apply();
     }
 
     @FunctionalInterface

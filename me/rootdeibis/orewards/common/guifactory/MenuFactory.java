@@ -43,16 +43,31 @@ public class MenuFactory implements IMenu, InventoryHolder {
 
     @Override
     public void open(Player player) {
-
+        player.openInventory(this.inventory);
     }
 
     @Override
     public void close(Player player) {
-
+        if (isMenuFactory(player))
+            player.closeInventory();
     }
 
     @Override
     public Inventory getInventory() {
         return this.getInventory();
+    }
+
+
+    public static boolean isMenuFactory(Player player) {
+        if (player.getOpenInventory() != null
+                &&
+                player.getOpenInventory().getTopInventory() != null
+                &&
+                player.getOpenInventory().getTopInventory().getHolder() instanceof MenuFactory) {
+            return true;
+
+        }
+
+        return false;
     }
 }
