@@ -1,4 +1,4 @@
-package me.rootdeibis.orewards.common.gui.menu.interfaces;
+package me.rootdeibis.orewards.common.guifactory.interfaces;
 
 import me.rootdeibis.orewards.common.cache.Cache;
 import org.bukkit.entity.Player;

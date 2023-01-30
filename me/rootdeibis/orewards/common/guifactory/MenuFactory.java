@@ -1,8 +1,8 @@
-package me.rootdeibis.orewards.common.gui.menu;
+package me.rootdeibis.orewards.common.guifactory;
 
 import me.rootdeibis.orewards.common.cache.Cache;
-import me.rootdeibis.orewards.common.gui.menu.interfaces.IButton;
-import me.rootdeibis.orewards.common.gui.menu.interfaces.IMenu;
+import me.rootdeibis.orewards.common.guifactory.interfaces.IButton;
+import me.rootdeibis.orewards.common.guifactory.interfaces.IMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
