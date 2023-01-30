@@ -39,7 +39,11 @@ public abstract class ISQLDatabase {
         try {
             Statement statement = this.getConnection().createStatement();
 
+            statement.setFetchSize(1);
+
             ResultSet resultSet = statement.executeQuery(query);
+
+
 
             if (resultSet.next()) {
 

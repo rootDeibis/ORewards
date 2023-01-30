@@ -1,7 +1,8 @@
 package me.rootdeibis.orewards.bukkit;
 
 
-import com.mysql.jdbc.log.Log;
+import me.rootdeibis.orewards.bukkit.rewards.IReward;
+import me.rootdeibis.orewards.common.cache.Cache;
 import me.rootdeibis.orewards.common.database.mysql.ISQLDatabase;
 import me.rootdeibis.orewards.common.database.mysql.MySQLDatabase;
 import me.rootdeibis.orewards.common.database.mysql.SQLFileDatabase;
@@ -24,6 +25,8 @@ public class Main extends JavaPlugin {
     private static FileManagerBukkit fileManager;
     private final String resourcePathFileManager = "me/rootdeibis/orewards/bukkit/resources/";
 
+    private static Cache<IReward> rewards = new Cache<>();
+
     protected static ISQLDatabase database;
 
     @Override
@@ -34,7 +37,9 @@ public class Main extends JavaPlugin {
 
         fileManager.Export("config.yml");
         fileManager.Export("messages.yml");
-        fileManager.dir("rewards");
+
+        fileManager.dir("rewards").getFiles().all()
+                .forEach(f -> rewards.add(IReward.resolve(f)));
 
 
     }
@@ -85,5 +90,9 @@ public class Main extends JavaPlugin {
 
     public static ISQLDatabase getDB() {
         return database;
+    }
+
+    public static Cache<IReward> getRewards() {
+        return rewards;
     }
 }

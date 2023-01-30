@@ -1,17 +1,19 @@
 package me.rootdeibis.orewards.bukkit.rewards.types;
 
-import me.rootdeibis.orewards.bukkit.rewards.IRewards;
+import me.rootdeibis.orewards.bukkit.rewards.IReward;
 import me.rootdeibis.orewards.common.filemanagers.IFile;
 import org.bukkit.entity.Player;
 
-public class TimeReward extends IRewards {
+import java.util.Date;
+
+public class TimeReward extends IReward {
+
 
     private final IFile configuration;
 
     public TimeReward(IFile configuration) {
         this.configuration = configuration;
     }
-
 
     @Override
     public IFile getConfig() {
@@ -20,11 +22,12 @@ public class TimeReward extends IRewards {
 
     @Override
     public boolean canClaim(Player player) {
-        return false;
+        if (this.needPermission() && ! player.hasPermission(this.getPermission())) return false;
+
+        return !new Date().after(new Date(this.getUntil(player.getUniqueId())));
     }
 
-    @Override
-    public void claim(Player player) {
 
-    }
+
+
 }
