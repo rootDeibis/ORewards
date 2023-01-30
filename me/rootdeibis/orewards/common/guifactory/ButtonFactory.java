@@ -4,6 +4,7 @@ import me.rootdeibis.orewards.common.colors;
 import me.rootdeibis.orewards.common.function.Functions;
 import me.rootdeibis.orewards.common.guifactory.interfaces.IButton;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -20,6 +21,8 @@ public class ButtonFactory implements IButton {
     private Functions.RFunction<List<String>> lore;
 
     private ItemStack itemStack;
+
+    private Functions.FunctionV2<InventoryClickEvent, MenuFactory> action = (e,b) -> {};
 
 
     public ButtonFactory(MenuFactory container, int slot) {
@@ -74,6 +77,17 @@ public class ButtonFactory implements IButton {
     @Override
     public ItemStack getItem() {
         return this.itemStack;
+    }
+
+    @Override
+    public IButton setClickAction(Functions.FunctionV2<InventoryClickEvent, MenuFactory> action) {
+        this.action = action;
+        return this;
+    }
+
+    @Override
+    public void click(InventoryClickEvent event, MenuFactory factory) {
+        this.action.apply(event, factory);
     }
 
     @Override
