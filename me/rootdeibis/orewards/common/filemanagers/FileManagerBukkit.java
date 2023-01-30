@@ -15,6 +15,7 @@ public class FileManagerBukkit {
 
     private final Plugin plugin;
     private final Cache<IFile> cache = new Cache<>();
+    private final Cache<IDirectory> directoryCache = new Cache<>();
 
     private String resourcesPath;
     public FileManagerBukkit(Plugin plugin) {
@@ -105,6 +106,18 @@ public class FileManagerBukkit {
         this.Export(resource, resource);
     }
 
+
+
+    public IDirectory dir(String name) {
+        if (!this.directoryCache.has(d -> d.getDirectory().getName().equals(name))) {
+            File directory = new File(this.plugin.getDataFolder(), name);
+
+            if (!directory.exists()) directory.mkdirs();
+
+            this.directoryCache.add(new IDirectory(directory, this));
+        }
+        return this.directoryCache.find(d -> d.getDirectory().getName().equals(name));
+    }
 
 
 

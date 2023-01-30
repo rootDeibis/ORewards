@@ -1,8 +1,7 @@
 package me.rootdeibis.orewards.bukkit;
 
-import me.rootdeibis.orewards.common.events.EventManager;
+
 import me.rootdeibis.orewards.common.filemanagers.FileManagerBukkit;
-import me.rootdeibis.orewards.common.socket.server.MessageListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,10 +21,10 @@ public class Main extends JavaPlugin {
         plugin = this;
 
         fileManager = new FileManagerBukkit(plugin, this.resourcePathFileManager);
+
         fileManager.Export("config.yml");
-
-        EventManager.register(new MessageListener());
-
+        fileManager.Export("messages.yml");
+        fileManager.dir("rewards");
 
 
     }
