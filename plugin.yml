@@ -1,0 +1,5 @@
+name: "PlayersWorld"
+description: "Create world for a players"
+version: "1.0"
+author: "rootDebis"
+main: "me.rootdeibis.playersworld.bukkit.Main"
