@@ -1,20 +1,30 @@
 package me.rootdeibis.orewards.common.guifactory;
 
+import me.rootdeibis.orewards.common.colors;
 import me.rootdeibis.orewards.common.function.Functions;
 import me.rootdeibis.orewards.common.guifactory.interfaces.IButton;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.List;
 
 public class ButtonFactory implements IButton {
 
     private final MenuFactory container;
+
+    private final int slot;
     private Functions.RFunction<String> material;
     private Functions.RFunction<String> title;
     private Functions.RFunction<List<String>> lore;
 
+    private ItemStack itemStack;
 
-    public ButtonFactory(MenuFactory container) {
+
+    public ButtonFactory(MenuFactory container, int slot) {
         this.container = container;
+        this.slot = slot;
     }
 
     @Override
@@ -38,6 +48,11 @@ public class ButtonFactory implements IButton {
     }
 
     @Override
+    public int getSlot() {
+        return this.slot;
+    }
+
+    @Override
     public IButton setMaterial(Functions.RFunction<String> material) {
         this.material = material;
 
@@ -54,5 +69,36 @@ public class ButtonFactory implements IButton {
     public IButton setLore(Functions.RFunction<List<String>> lore) {
         this.lore = lore;
         return this;
+    }
+
+    @Override
+    public ItemStack getItem() {
+        return this.itemStack;
+    }
+
+    @Override
+    public void build() {
+
+        String[] $material_data = this.getMaterial().split(":");
+
+        Material $material = Material.valueOf($material_data[0]);
+
+        byte $material_type = 0;
+
+        if ($material_data.length > 1) $material_type = Byte.valueOf($material_data[1]);
+
+        this.itemStack = new ItemStack($material);
+
+        MaterialData materialData = new MaterialData($material,$material_type);
+
+        this.itemStack.setData(materialData);
+
+        ItemMeta meta = this.itemStack.getItemMeta();
+
+        meta.setDisplayName(colors.colors(this.getTitle()));
+
+        meta.setLore(colors.colors(this.getLore()));
+
+        this.itemStack.setItemMeta(meta);
     }
 }
