@@ -1,5 +1,5 @@
-name: "PlayersWorld"
-description: "Create world for a players"
+name: "ORewards"
+description: "Rewards Plugin"
 version: "1.0"
 author: "rootDebis"
-main: "me.rootdeibis.playersworld.bukkit.Main"
+main: "me.rootdeibis.orewards.bukkit.Main"
