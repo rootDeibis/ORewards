@@ -14,3 +14,17 @@ database:
     #username: "root"
     #password: "password_here"
     #databaseName: "orewards"
+
+categories-gui:
+  title: "&aORewards &7> &aCategories"
+  rows: 9
+
+categories:
+  default:
+    item:
+      material: "STONE"
+      slot: 10
+      displayname: "&aDefault Rewards"
+      lore:
+        - "&dClick to open"
+

@@ -38,11 +38,20 @@ public class MenuFactory implements IMenu, InventoryHolder {
 
     @Override
     public IMenu load() {
+
+        this.getButtons().all().forEach(btn -> {
+            btn.build();
+
+            this.getInventory().setItem(btn.getSlot(), btn.getItem());
+        });
+
         return this;
     }
 
     @Override
     public void open(Player player) {
+        this.load();
+
         player.openInventory(this.inventory);
     }
 
@@ -54,7 +63,7 @@ public class MenuFactory implements IMenu, InventoryHolder {
 
     @Override
     public Inventory getInventory() {
-        return this.getInventory();
+        return this.inventory;
     }
 
 

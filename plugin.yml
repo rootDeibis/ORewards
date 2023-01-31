@@ -3,3 +3,7 @@ description: "Rewards Plugin"
 version: "1.0"
 author: "rootDebis"
 main: "me.rootdeibis.orewards.bukkit.Main"
+commands:
+  orewards:
+    aliases:
+      - orw

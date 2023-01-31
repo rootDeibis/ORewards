@@ -2,6 +2,7 @@ package me.rootdeibis.orewards.bukkit.rewards;
 
 import me.rootdeibis.orewards.bukkit.Main;
 import me.rootdeibis.orewards.bukkit.db.DatabaseQuerys;
+import me.rootdeibis.orewards.bukkit.enums.REWARDS_CONFIG;
 import me.rootdeibis.orewards.bukkit.rewards.types.EnumRewardTypes;
 import me.rootdeibis.orewards.bukkit.rewards.types.TimeReward;
 import me.rootdeibis.orewards.common.TimeTool;
@@ -15,11 +16,11 @@ public abstract class IReward {
     private static final HashMap<UUID, Long> untils = new HashMap<>();
 
     public String getName() {
-        return this.getConfig().getString(CONFIG.NAME.parse());
+        return this.getConfig().getString(REWARDS_CONFIG.NAME.parse());
     }
 
     public EnumRewardTypes getType() {
-        return EnumRewardTypes.valueOf(this.getConfig().getString(CONFIG.TYPE.parse()).toLowerCase());
+        return EnumRewardTypes.valueOf(this.getConfig().getString(REWARDS_CONFIG.TYPE.parse()).toLowerCase());
     }
 
     abstract public IFile getConfig();
@@ -32,7 +33,7 @@ public abstract class IReward {
 
 
     public String getPermission() {
-        return this.getConfig().getString(CONFIG.PERMISSION.parse());
+        return this.getConfig().getString(REWARDS_CONFIG.PERMISSION.parse());
     }
     public boolean needPermission() {
         if (this.getPermission() != null) {
@@ -56,7 +57,7 @@ public abstract class IReward {
 
 
     public static IReward resolve(IFile file) {
-        EnumRewardTypes type = EnumRewardTypes.valueOf(file.getString(CONFIG.TYPE.parse()));
+        EnumRewardTypes type = EnumRewardTypes.valueOf(file.getString(REWARDS_CONFIG.TYPE.parse()));
 
         if (type == EnumRewardTypes.TIMED_REWARD) {
             return new TimeReward(file);
@@ -87,39 +88,6 @@ public abstract class IReward {
     }
 
 
-    public static enum CONFIG {
 
-        NAME("name"),
-
-        PERMISSION("permission"),
-
-        TYPE("type"),
-
-        STATUS_AVAILABLE_MATERIAL("status-available.material"),
-        STATUS_AVAILABLE_TITLE("status-available.title"),
-
-        STATUS_AVAILABLE_LORE("status-available.lore"),
-
-
-        STATUS_PERM_MATERIAL("status-need-permission.material"),
-        STATUS_PERM_TITLE("status-need-permission.title"),
-
-        STATUS_PERM_LORE("status-need-permission.lore"),
-
-        STATUS_NOT_AVAILABLE_MATERIAL("status-not-available.material"),
-        STATUS_NOT_AVAILABLE_TITLE("status-not-available.title"),
-
-        STATUS_NOT_AVAILABLE_LORE("status-not-available.lore");
-
-        private final String path;
-
-        CONFIG(String path) {
-            this.path = path;
-        }
-
-        public String parse() {
-            return this.path;
-        }
-    }
 
 }

@@ -1,6 +1,7 @@
 package me.rootdeibis.orewards.bukkit;
 
 
+import me.rootdeibis.orewards.bukkit.commands.ORewardsCommand;
 import me.rootdeibis.orewards.bukkit.rewards.IReward;
 import me.rootdeibis.orewards.common.cache.Cache;
 import me.rootdeibis.orewards.common.database.mysql.ISQLDatabase;
@@ -8,12 +9,12 @@ import me.rootdeibis.orewards.common.database.mysql.MySQLDatabase;
 import me.rootdeibis.orewards.common.database.mysql.SQLFileDatabase;
 import me.rootdeibis.orewards.common.filemanagers.FileManagerBukkit;
 import me.rootdeibis.orewards.common.function.Functions;
+import me.rootdeibis.orewards.common.guifactory.listener.InventoryClickListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.spigotmc.SpigotConfig;
 
 import java.io.File;
 
@@ -77,6 +78,10 @@ public class Main extends JavaPlugin {
         }
 
         database.connect(callback);
+
+        Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
+
+        this.getCommand("orewards").setExecutor(new ORewardsCommand());
 
     }
 
