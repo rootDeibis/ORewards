@@ -1,6 +1,6 @@
 package me.rootdeibis.orewards.bukkit.commands;
 
-import me.rootdeibis.orewards.bukkit.rewards.guis.GUICategories;
+import me.rootdeibis.orewards.bukkit.rewards.guis.BuilderMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +11,7 @@ public class ORewardsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
         if (sender instanceof Player)
-            GUICategories.get().open((Player) sender);
+            BuilderMenu.get().open((Player) sender);
 
 
         return false;

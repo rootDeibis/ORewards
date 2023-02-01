@@ -3,6 +3,7 @@ package me.rootdeibis.orewards.common.cache;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Cache<T> {
 
@@ -17,6 +18,10 @@ public class Cache<T> {
 
     public Set<T> all() {
         return this.caches;
+    }
+
+    public Set<T> all(Predicate<T> filter) {
+        return this.caches.stream().filter(filter).collect(Collectors.toSet());
     }
 
     public T find(Predicate<T> predication) {

@@ -3,19 +3,22 @@ package me.rootdeibis.orewards.bukkit.rewards.guis;
 import me.rootdeibis.orewards.bukkit.Logger;
 import me.rootdeibis.orewards.bukkit.Main;
 import me.rootdeibis.orewards.bukkit.enums.CONFIG;
+import me.rootdeibis.orewards.bukkit.rewards.IReward;
 import me.rootdeibis.orewards.common.colors;
 import me.rootdeibis.orewards.common.filemanagers.IFile;
 import me.rootdeibis.orewards.common.guifactory.ButtonFactory;
 import me.rootdeibis.orewards.common.guifactory.MenuFactory;
 import me.rootdeibis.orewards.common.guifactory.interfaces.IButton;
+import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Set;
 
-public class GUICategories {
+public class BuilderMenu {
 
     private static MenuFactory menu;
 
-    public static MenuFactory get() {
+    public static MenuFactory open(Player player) {
 
         if(menu == null) {
             IFile config = Main.getFileManager().Import("config.yml");
@@ -25,7 +28,7 @@ public class GUICategories {
 
             menu = new MenuFactory(colors.colors(title), rows);
 
-            loadCategoriesButtons(menu);
+            loadCategoriesButtons(menu, player);
         }
 
         return menu;
@@ -33,7 +36,7 @@ public class GUICategories {
     }
 
 
-    private static void loadCategoriesButtons(MenuFactory menu) {
+    private static void loadCategoriesButtons(MenuFactory menu, Player player) {
         IFile config = Main.getFileManager().Import("config.yml");
 
 
@@ -59,8 +62,13 @@ public class GUICategories {
 
             menu.createButton(button);
         });
+    }
 
+    private static void loadRewardGui(IButton btn, List<String> rewardsList) {
+        Set<IReward> rewards =  Main.getRewards().all(r -> rewardsList.contains(r.getConfig().getFile().getName()));
 
+        rewards.forEach(reward -> {
+        });
     }
 
 }

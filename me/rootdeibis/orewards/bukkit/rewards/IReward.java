@@ -7,9 +7,14 @@ import me.rootdeibis.orewards.bukkit.rewards.types.EnumRewardTypes;
 import me.rootdeibis.orewards.bukkit.rewards.types.TimeReward;
 import me.rootdeibis.orewards.common.TimeTool;
 import me.rootdeibis.orewards.common.filemanagers.IFile;
+import me.rootdeibis.orewards.common.function.Functions;
+import me.rootdeibis.orewards.common.guifactory.ButtonFactory;
+import me.rootdeibis.orewards.common.guifactory.MenuFactory;
+import me.rootdeibis.orewards.common.guifactory.interfaces.IButton;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class IReward {
@@ -55,6 +60,70 @@ public abstract class IReward {
         return Main.getDB().exec(String.format(DatabaseQuerys.UPDATE_USER.parse(), this.getName(), until, uuid.toString()));
     }
 
+    abstract public REWARD_STATUS getStatus(Player player);
+
+
+     public IButton importButtonStatus(Player player, MenuFactory menu, int slot) {
+         IFile config = this.getConfig();
+
+
+         Functions.RFunction<String> material = () -> {
+             String $material = config.getString(REWARDS_CONFIG.STATUS_AVAILABLE_MATERIAL.parse());
+
+             switch (this.getStatus(player)){
+                 case NOT_AVAILABLE:
+                     $material = config.getString(REWARDS_CONFIG.STATUS_NOT_AVAILABLE_MATERIAL.parse());
+                     break;
+                 case NEED_PERMISSION:
+                     $material =  config.getString(REWARDS_CONFIG.STATUS_PERM_MATERIAL.parse());
+             }
+
+             return  $material;
+
+         };
+
+         Functions.RFunction<String> title = () -> {
+             String $title = config.getString(REWARDS_CONFIG.STATUS_AVAILABLE_TITLE.parse());
+
+            switch (this.getStatus(player)){
+                case NOT_AVAILABLE:
+                    $title = config.getString(REWARDS_CONFIG.STATUS_NOT_AVAILABLE_TITLE.parse());
+                    break;
+                case NEED_PERMISSION:
+                    $title =  config.getString(REWARDS_CONFIG.STATUS_PERM_TITLE.parse());
+            }
+
+            return  $title;
+
+         };
+
+
+         Functions.RFunction<List<String>> lore = () -> {
+             List<String> $lore = config.getStringList(REWARDS_CONFIG.STATUS_AVAILABLE_LORE.parse());
+
+             switch (this.getStatus(player)){
+                 case NOT_AVAILABLE:
+                     $lore = config.getStringList(REWARDS_CONFIG.STATUS_NOT_AVAILABLE_LORE.parse());
+                     break;
+                 case NEED_PERMISSION:
+                     $lore =  config.getStringList(REWARDS_CONFIG.STATUS_PERM_LORE.parse());
+             }
+
+             return  $lore;
+
+         };
+
+         IButton button = new ButtonFactory(menu, slot)
+                 .setMaterial(material)
+                 .setTitle(title)
+                 .setLore(lore);
+
+         button.setClickAction((event, factory) -> this.claim((Player)event.getWhoClicked()));
+
+         return button;
+
+     }
+
 
     public static IReward resolve(IFile file) {
         EnumRewardTypes type = EnumRewardTypes.valueOf(file.getString(REWARDS_CONFIG.TYPE.parse()));
@@ -87,6 +156,13 @@ public abstract class IReward {
         return untils.get(uuid);
     }
 
+
+
+    public enum REWARD_STATUS {
+         AVAILABLE,
+         NOT_AVAILABLE,
+        NEED_PERMISSION
+    }
 
 
 
