@@ -5,7 +5,9 @@ public enum CONFIG {
     GUI_CATEGORIES_TITLE("categories-gui.title"),
     GUI_CATEGORIES_ROWS("categories-gui.rows"),
 
+    GUI_CATEGORY_TITLE("categories.%s.gui-title"),
 
+    GUI_CATEGORY_ROWS("categories.%s.gui-rows"),
     GUI_BUTTON_MATERIAL("categories.%s.item.material"),
 
     GUI_BUTTON_TITLE("categories.%s.item.displayname"),
@@ -19,6 +21,7 @@ public enum CONFIG {
     CONFIG(String path) {
         this.path = path;
     }
+
 
     public String parse() {
         return this.path;

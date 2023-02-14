@@ -17,10 +17,14 @@ database:
 
 categories-gui:
   title: "&aORewards &7> &aCategories"
-  rows: 9
+  rows: 6
 
 categories:
   default:
+    gui-title: "Default Rewards"
+    gui-rows: 1
+    rewards:
+      name: 12
     item:
       material: "STONE"
       slot: 10
