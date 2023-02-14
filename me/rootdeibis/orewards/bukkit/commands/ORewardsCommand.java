@@ -11,7 +11,7 @@ public class ORewardsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
         if (sender instanceof Player)
-            BuilderMenu.get().open((Player) sender);
+            BuilderMenu.open((Player) sender);
 
 
         return false;

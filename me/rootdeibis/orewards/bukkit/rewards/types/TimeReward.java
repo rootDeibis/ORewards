@@ -3,10 +3,8 @@ package me.rootdeibis.orewards.bukkit.rewards.types;
 import me.rootdeibis.orewards.bukkit.rewards.IReward;
 import me.rootdeibis.orewards.common.filemanagers.IFile;
 import org.bukkit.entity.Player;
-import sun.security.x509.AVA;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class TimeReward extends IReward {
 
