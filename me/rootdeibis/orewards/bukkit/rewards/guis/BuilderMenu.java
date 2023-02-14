@@ -18,20 +18,19 @@ import java.util.stream.Collectors;
 
 public class BuilderMenu {
 
-    private static MenuFactory menu;
 
     public static void open(Player player) {
 
-        if(menu == null) {
-            IFile config = Main.getFileManager().Import("config.yml");
 
-            String title = config.getString(CONFIG.GUI_CATEGORIES_TITLE.parse());
-            int rows = config.getInt(CONFIG.GUI_CATEGORIES_ROWS.parse());
+        IFile config = Main.getFileManager().Import("config.yml");
 
-            menu = new MenuFactory(colors.colors(title), rows);
+        String title = config.getString(CONFIG.GUI_CATEGORIES_TITLE.parse());
+        int rows = config.getInt(CONFIG.GUI_CATEGORIES_ROWS.parse());
 
-            loadCategoriesButtons(menu, player);
-        }
+        MenuFactory menu = new MenuFactory(colors.colors(title), rows);
+
+        loadCategoriesButtons(menu, player);
+
 
        menu.open(player);
 
